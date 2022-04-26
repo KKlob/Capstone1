@@ -9,11 +9,17 @@ Ethereum is a leading force in the crypto-currency space today. It has the most 
      * TransactionHash - Shows basic info of the transaction
      * Wallet Address - Shows basic info of the wallet
    * User Page: User will have the option to login and store a list of wallets they own/want to watch. Wallets can be grouped by the user to show total value
-   * New to Eth Page: Shows some basic info / links to sites that give greate beginner knowledge to get the user started.
+     * Will show each group separately as well as detail of each wallet's contents in each group
+     * Will allow a user to filter results based on:
+       * group name
+       * amount of eth/token
+       * if group/wallet has token
+       * total amount of group / wallet
+   * Eth Education Page: Shows some basic info / links to sites that give greate beginner knowledge to get the user started.
 
 2. The demographic of users I'm targeting with this capstone are your basic ethereum users. People who have just started learning about crypto and Ethereum specificly but feel overwhelemed by some of the currently existing blockchain explorers available. I'll also hope to get people who are curious about Ethereum but have yet to take the plunge.
 
-3. I have multiple different APIs the backend will be calling to. I'll also be using a PostgreSQL database to help keep within the free.99 call limits. The front-end will query/pull data on Users from the DB as well as some statisical data. The backend will handle passing requests on Block#/TransactionHash/Wallet Address info and filter the information given back to ensure only what is needed is passed on to the user.
+3. I'll be using Etherscan.io's API for most all data necessary to show the user. The Web3py/Infura SDK will be used primarily to help encode/decode hex values as well as get some information not accessible from Etherscan's API. I'll also be using a PostgreSQL database to help keep within the free.99 call limits. The front-end will query/pull data on Users from the DB as well as some statisical data. The backend will handle passing requests on Block#/TransactionHash/Wallet Address info and filter the information given back to ensure only what is needed is passed on to the user.
 
 4. API Used:
    * [Etherscan.io](https://docs.etherscan.io/getting-started/creating-an-account)
@@ -62,3 +68,39 @@ Ethereum is a leading force in the crypto-currency space today. It has the most 
   * base_fee - Float
 
 
+## Potential Issues
+
+1. Rate limits
+    * Need to write logic for backend to ensure rate limits are not reached. All front-end requests look to the database when applicable.
+
+2. Sensitive Information
+    * Only a user's password for their account is truly sensative. No real names / identifying info will be needed. All wallet_groups will only be viewable by the user that owns them.
+
+## Additional Information
+
+3. User Flow
+    * A user will be brought to the Main page and has the option to:
+      * search for a block# / Transaction Hash / Wallet Address
+      * Login
+        * redirects to user's wallet groups page on successful login
+        * loggout redirects to main page
+      * Go to Eth Education Page
+
+
+4. CRUD requirements
+    * Fulfilled via user login + wallet groups
+    * Fulfilled via cacheing data in db
+
+5. Beyond CRUD
+    * Filter methods for user's wallet groups
+    * Gas price estimates converted to be understood easily
+
+6. Stretch Goals
+    * Naming system for wallets
+      * hex code for wallet is abstracted away
+      * can search for wallet via name instead of hex code
+    * Defi / Cefi Page
+      * shows info on various DeFi services (Uniswap, Aave, Curve, etc.)
+      * shows info on various CeFi services (Coinbase, Gemini, etc.)
+    * Crypto Converter
+      * easy-to-use calculator for converting Fiat / Eth / Tokens
