@@ -26,4 +26,4 @@ Ethereum is a leading force in the crypto-currency space today. It has the most 
 
 ## Database Schema
 
-<img src="https://github.com/KKlob/Capstone1/blob/main/imgs/db_schema.PNG" alt="Database Schema" height="200" width="200"/>
+<img src="https://github.com/KKlob/Capstone1/blob/main/imgs/db_schema.PNG" alt="Database Schema" height="300" width="300"/>
