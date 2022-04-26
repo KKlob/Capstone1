@@ -78,7 +78,7 @@ Ethereum is a leading force in the crypto-currency space today. It has the most 
 
 ## Additional Information
 
-3. User Flow
+1. User Flow
     * A user will be brought to the Main page and has the option to:
       * search for a block# / Transaction Hash / Wallet Address
       * Login
@@ -87,15 +87,15 @@ Ethereum is a leading force in the crypto-currency space today. It has the most 
       * Go to Eth Education Page
 
 
-4. CRUD requirements
+2. CRUD requirements
     * Fulfilled via user login + wallet groups
     * Fulfilled via cacheing data in db
 
-5. Beyond CRUD
+3. Beyond CRUD
     * Filter methods for user's wallet groups
     * Gas price estimates converted to be understood easily
 
-6. Stretch Goals
+4. Stretch Goals
     * Naming system for wallets
       * hex code for wallet is abstracted away
       * can search for wallet via name instead of hex code
