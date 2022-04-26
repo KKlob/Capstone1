@@ -104,3 +104,5 @@ Ethereum is a leading force in the crypto-currency space today. It has the most 
       * shows info on various CeFi services (Coinbase, Gemini, etc.)
     * Crypto Converter
       * easy-to-use calculator for converting Fiat / Eth / Tokens
+    * Filter a wallet's transactions
+      * filter via amount/token/timestamp
