@@ -1,5 +1,5 @@
 # Capstone One: 
-## Simplified Ethereum Block Explorer
+## Minimalistic Ethereum Block Explorer
 
 Ethereum is a leading force in the crypto-currency space today. It has the most active developers and arguably the most economic activity of all blockchains. However, there is still much work to be done on providing a user-friendly interface when it comes to interacting with the blockchain or gathering information from it. A block explorer like [Etherscan.io]([https](https://etherscan.io/)) shows a ton of information that can be hard to understand at times, especially for the average person.
 
