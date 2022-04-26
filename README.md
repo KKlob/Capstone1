@@ -27,3 +27,38 @@ Ethereum is a leading force in the crypto-currency space today. It has the most 
 ## Database Schema
 
 <img src="https://github.com/KKlob/Capstone1/blob/main/imgs/db_schema.PNG" alt="Database Schema" height="500" width="500"/>
+
+* Users
+  * id - Primary Key, autoincrement
+  * username - unique non-nullable
+  * password - hashed+salted non-nullable
+
+* Wallet_Groups
+  * id - Primary Key, autoincrement
+  * group_name - String
+  * owner - ForeignKey -> Users.username
+
+* Wallets
+  * id - Primary Key, autoincrement
+  * wallet_address - String
+  * eth_total - Float
+  * tokens - String
+    * using json.dumps() Format: {"tokens": [{"name": "Maker", "symbol": "MKR", "total": 1 }, {etc}]}
+    * easily store all tokens associated with a wallet / easily update token list
+  * group_id - Int ForeignKey -> Wallet_Groups.id
+  * owner - Int ForeignKey -> Users.username
+
+* Eth_Stats
+  * total_supply - Float
+  * total_supply_eth2 - Float
+  * last_price - Float
+  * safe_gas - String
+  * prop_gas - String
+  * fast_gas - String
+    * safe_gas, prop_gas, and fast_gas using json.dumps() Format: {"gwei": "20", "wei": "20000000000", "est_conf": "9227"}
+      * gwei - commonly used value for gas pricing in Eth
+      * wei - smallest base value for Eth
+      * est_conf - estimated confirmation time in secconds
+  * base_fee - Float
+
+
