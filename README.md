@@ -5,9 +5,9 @@ Ethereum is a leading force in the crypto-currency space today. It has the most 
 
 The goal of this capstone is to emulate an ethereum block explorer like Etherscan, but with the average user in mind. Strip away all the insane detail, timestamps, conversions, etc. and leave only the easily digestable information for the user. This project will look to create a minimalistic front-end for the ethereum blockchain. Below are screenshots of the Etherscan.io front-end.
 
-| <img src="https://github.com/KKlob/Capstone1/blob/main/imgs/etherscan%20block%20snip.PNG"> | <img src="https://github.com/KKlob/Capstone1/blob/main/imgs/etherscan%20tx%20snip.PNG"> | <img src="https://github.com/KKlob/Capstone1/blob/main/imgs/etherscan%20wallet%20snip.PNG"> |
-| :----------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------: |
-|                                    *Block Information*                                     |                                *Transaction Information*                                |                                    *Wallet Information*                                     |
+| <img src="https://github.com/KKlob/Capstone1/blob/main/conceptual/imgs/etherscan%20block%20snip.PNG"> | <img src="https://github.com/KKlob/Capstone1/blob/main/conceptual/imgs/etherscan%20tx%20snip.PNG"> | <img src="https://github.com/KKlob/Capstone1/blob/main/conceptual/imgs/etherscan%20wallet%20snip.PNG"> |
+| :---------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------: |
+|                                          *Block Information*                                          |                                     *Transaction Information*                                      |                                          *Wallet Information*                                          |
 
 ## Application Structure
 
@@ -40,7 +40,7 @@ The Minimalistic Ethereum Block Explorer will have the following structure:
 
 ## Database Schema
 
-<img src="https://github.com/KKlob/Capstone1/blob/main/imgs/db_schema.PNG" alt="Database Schema" height="450" width="450"/>
+<img src="https://github.com/KKlob/Capstone1/blob/main/conceptual/imgs/db_schema.PNG" alt="Database Schema" height="450" width="450"/>
 
 * Users
   * id - Primary Key, autoincrement
