@@ -1,6 +1,50 @@
 {% extends 'base.html' %}
 
 {% block main_content %}
-<p>This is the main content that all users land on originally.</p>
+<div class="col-4">
+    <div class="card">
+        <h5 class="card-title text-center">Total ETH Supply</h5>
+        <p class="text-center" id="total_supply">total_supply_eth</p>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card">
+        <h5 class="card-title text-center">Total ETH2 Supply</h5>
+        <p class="text-center" id="total_supply_eth2">Total_supply_eth2</p>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card">
+        <h5 class="card-title text-center">Last Price ($USD)</h5>
+        <p class="text-center" id="last_price">last_price</p>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card">
+        <h5 class="card-title text-center">Safe Gase Price</h5>
+        <p class="text-center" id="sg_gwei">safe_gas_gwei</p>
+        <p class="text-center" id="sg_conf">safe_gas_conf</p>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card">
+        <h5 class="card-title text-center">Proposed Gas Price (Gwei)</h5>
+        <p class="text-center" id="pg_gwei">prop_gas_gwei</p>
+        <p class="text-center" id="pg_conf">prop_gas_conf</p>
+    </div>
+</div>
+<div class="col-4">
+    <div class="card">
+        <h5 class="card-title text-center">Fast Gas Price (Gwei)</h5>
+        <p class="text-center" id="fg_gwei">fast_gas_gwei</p>
+        <p class="text-center" id="fg_conf">fast_gas_conf</p>
+    </div>
+</div>
+<div class="col-12">
+    <div class="card">
+        <h5 class="card-title text-center">Base Fee (Gwei)</h5>
+        <p class="text-center" id="base_fee">base_fee</p>
+    </div>
+</div>
 
 {% endblock %}
