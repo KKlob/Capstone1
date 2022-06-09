@@ -57,10 +57,12 @@ class Eth_Stats(db.Model):
             new_stat = Eth_Stats(**stats)
             db.session.add(new_stat)
             db.session.commit()
+            print("Eth_Stats updated: ", new_stat)
             return new_stat
         else:
             for key, value in stats.items():
                 setattr(curr_data, key, value)
             db.session.add(curr_data)
             db.session.commit()
+            print("Eth_Stats updated: ", curr_data)
             return curr_data
