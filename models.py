@@ -16,7 +16,9 @@ class Eth_Stats(db.Model):
     __tablename__ = 'eth_stats'
 
     def __repr__(self):
-        return f'<Eth_Stats {self.id} | {self.last_price}>'
+        """returns serialized json string. 
+        Can be passed into json.loads() -> jsonify() to send info to client. """
+        return "{" + f'"total_supply": {self.total_supply}, ' + f'"total_supply_eth2": {self.total_supply_eth2}, ' + f'"last_price": {self.last_price}, ' + f'"safe_gas": {self.safe_gas}, ' + f'"prop_gas": {self.prop_gas}, ' + f'"fast_gas": {self.fast_gas}, ' + f'"base_fee": {self.base_fee}' + "}"
 
     id = db.Column(db.Integer,
                     primary_key=True,
