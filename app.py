@@ -28,7 +28,8 @@ connect_db(app)
 scheduler.init_app(app)
 scheduler.start()
 
-scheduler.add_job(id='ETH_STATS_UPDATE', func=Eth_Stats.update, trigger='interval', seconds=20)
+# scheduler will run Eth_stats.update() every 20 seconds. Ensures call limit
+scheduler.add_job(id='ETH_STATS_UPDATE', func=Eth_Stats.update, trigger='interval', seconds=8)
 
 @app.route("/")
 def homepage():
