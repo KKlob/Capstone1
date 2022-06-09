@@ -56,9 +56,9 @@ def clean_eth_stats(raw_stats):
 
     for stat in raw_stats:
         if 'ethsupply' in stat.keys():
-            clean_stats['total_supply'] = float(stat['ethsupply']['result'])
+            clean_stats['total_supply'] = str(stat['ethsupply']['result'])
         elif 'ethsupply2' in stat.keys():
-            clean_stats['total_supply_eth2'] = float(float(stat['ethsupply2']['result']['EthSupply']) + float(stat['ethsupply2']['result']['Eth2Staking']) - float(stat['ethsupply2']['result']['BurntFees']))
+            clean_stats['total_supply_eth2'] = str(float(stat['ethsupply2']['result']['EthSupply']) + float(stat['ethsupply2']['result']['Eth2Staking']) - float(stat['ethsupply2']['result']['BurntFees']))
         elif 'ethprice' in stat.keys():
             clean_stats['last_price'] = float(stat['ethprice']['result']['ethusd'])
         elif 'gastracker' in stat.keys():

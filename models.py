@@ -1,5 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 
+from eth_stat_funcs import update_db_eth_stats
+
 db = SQLAlchemy()
 
 def connect_db(app):
@@ -13,14 +15,17 @@ class Eth_Stats(db.Model):
 
     __tablename__ = 'eth_stats'
 
+    def __repr__(self):
+        return f'<Eth_Stats {self.id} | {self.last_price}>'
+
     id = db.Column(db.Integer,
                     primary_key=True,
                     autoincrement=True)
 
-    total_supply = db.Column(db.Float,
+    total_supply = db.Column(db.Text,
                             nullable=False)
 
-    total_supply_eth2 = db.Column(db.Float,
+    total_supply_eth2 = db.Column(db.Text,
                             nullable=False)
 
     last_price = db.Column(db.Float,
@@ -39,21 +44,21 @@ class Eth_Stats(db.Model):
                         nullable=False)
 
     @classmethod
-    def update(cls, stats):
-        """Pass in clean stats to update db with"""
+    def update(cls):
+        """Collect fresh stats from Etherscan, clean it up, then update db"""
 
-        old_data = Eth_Stats.query.first()
-        if old_data != None:
-            db.session.delete(old_data)
+        stats = update_db_eth_stats()
+
+        curr_data = Eth_Stats.query.first()
+
+        if curr_data == None:
+            new_stat = Eth_Stats(**stats)
+            db.session.add(new_stat)
             db.session.commit()
-
-        data = Eth_Stats(total_supply=stats['total_supply'],
-                    total_supply_eth2=stats['total_supply_eth2'],
-                    last_price=stats['last_price'],
-                    safe_gas=stats['safe_gas'],
-                    prop_gas=stats['prop_gas'],
-                    fast_gas=stats['fast_gas'],
-                    base_fee=stats['base_fee'])
-        db.session.add(data)
-        db.session.commit()
-        return data
+            return new_stat
+        else:
+            for key, value in stats.items():
+                setattr(curr_data, key, value)
+            db.session.add(curr_data)
+            db.session.commit()
+            return curr_data

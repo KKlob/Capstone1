@@ -4,10 +4,7 @@ from app import db, ES_API_BASE_URL
 from models import Eth_Stats
 from eth_stat_funcs import update_db_eth_stats
 
-Eth_Stats.query.delete()
+db.drop_all()
+db.create_all()
 
-stats = update_db_eth_stats()
-
-print(stats)
-
-data = Eth_Stats.update(stats)
+Eth_Stats.update()
