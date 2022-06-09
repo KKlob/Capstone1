@@ -1,5 +1,4 @@
 import os
-import sched
 from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_apscheduler import APScheduler
