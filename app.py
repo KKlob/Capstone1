@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, flash, redirect, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_apscheduler import APScheduler
 from models import Eth_Stats, db, connect_db
+from search_funcs import detectSearch, getSearchResult, handleSearch
 from secret_keys import APP_SECRET_KEY
 import json
 
@@ -45,3 +46,21 @@ def get_eth_stats():
     stats = json.loads(db_stats.__repr__())
     return jsonify(stats)
 
+@app.route("/api/search", methods=["GET"])
+def search():
+    """Based on search input, determines if it's a block#, Tx hash, wallet address, or invalid and handles accordingly.
+    block# - returns block# info
+    tx hash - return tx hash info
+    wallet address - returns wallet address info
+    invalid - returns an error
+    All returns are JSON
+    """
+
+    term = request.args["term"]
+    resp = handleSearch(term)
+    return jsonify(resp)
+    
+    # print("---------------------------")
+    # print("term: " + term)
+    # print("----------------------------")
+    # return jsonify({"data": "A successfull response!"})
