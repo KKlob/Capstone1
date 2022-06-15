@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, flash, redirect, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_apscheduler import APScheduler
 from models import Eth_Stats, db, connect_db
+from search_funcs import detectSearch, getSearchResult, handleSearch
 from secret_keys import APP_SECRET_KEY
 import json
 
@@ -56,7 +57,10 @@ def search():
     """
 
     term = request.args["term"]
-    print("---------------------------")
-    print("term: " + term)
-    print("----------------------------")
-    return jsonify({"data": "A successfull response!"})
+    resp = handleSearch(term)
+    return jsonify(resp)
+    
+    # print("---------------------------")
+    # print("term: " + term)
+    # print("----------------------------")
+    # return jsonify({"data": "A successfull response!"})
