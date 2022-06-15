@@ -45,3 +45,18 @@ def get_eth_stats():
     stats = json.loads(db_stats.__repr__())
     return jsonify(stats)
 
+@app.route("/api/search", methods=["GET"])
+def search():
+    """Based on search input, determines if it's a block#, Tx hash, wallet address, or invalid and handles accordingly.
+    block# - returns block# info
+    tx hash - return tx hash info
+    wallet address - returns wallet address info
+    invalid - returns an error
+    All returns are JSON
+    """
+
+    term = request.args["term"]
+    print("---------------------------")
+    print("term: " + term)
+    print("----------------------------")
+    return jsonify({"data": "A successfull response!"})

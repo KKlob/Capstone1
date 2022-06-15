@@ -13,7 +13,6 @@ const $base_fee = $('#base_fee')
 
 async function update_stats() {
     stats = await get_stats();
-    console.log(stats)
     let ts = String(BigInt(stats['total_supply']))
     let ts2 = String(BigInt(stats['total_supply_eth2']))
     let lp = String("$" + stats['last_price'])
