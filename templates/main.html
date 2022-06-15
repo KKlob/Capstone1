@@ -1,50 +1,73 @@
 {% extends 'base.html' %}
 
-{% block main_content %}
-<div class="col-4">
-    <div class="card">
-        <h5 class="card-title text-center">Total ETH Supply</h5>
-        <p class="text-center" id="total_supply">total_supply_eth</p>
+{% block eth_stats_dashboard %}
+<div class="row justify-content-center mt-2">
+    <div class="col-12 col-md-6 col-lg-4 col-xxl-3">
+        <div class="card">
+            <h5 class="card-title text-center">Total ETH Supply</h5>
+            <p class="text-center" id="total_supply">***</p>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 col-xxl-3">
+        <div class="card">
+            <h5 class="card-title text-center">Total ETH2 Supply</h5>
+            <p class="text-center" id="total_supply_eth2">***</p>
+        </div>
     </div>
 </div>
-<div class="col-4">
-    <div class="card">
-        <h5 class="card-title text-center">Total ETH2 Supply</h5>
-        <p class="text-center" id="total_supply_eth2">Total_supply_eth2</p>
+<div class="row justify-content-center mt-2">
+    <div class="col-12 col-md-6 col-lg-4 col-xxl-3">
+        <div class="card">
+            <h5 class="card-title text-center">Last Price ($USD)</h5>
+            <p class="text-center" id="last_price">***</p>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-4 col-xxl-3">
+        <div class="card">
+            <h5 class="card-title text-center">Base Fee (Gwei)</h5>
+            <p class="text-center" id="base_fee">***</p>
+        </div>
     </div>
 </div>
-<div class="col-4">
-    <div class="card">
-        <h5 class="card-title text-center">Last Price ($USD)</h5>
-        <p class="text-center" id="last_price">last_price</p>
+<div class="row justify-content-center mt-2">
+    <div class="col-3 col-xl-2">
+        <div class="card">
+            <h5 class="card-title text-center">Safe Gas</h5>
+            <p class="text-center" id="sg_gwei">***</p>
+            <p class="text-center" id="sg_conf">***</p>
+        </div>
     </div>
-</div>
-<div class="col-4">
-    <div class="card">
-        <h5 class="card-title text-center">Safe Gase Price</h5>
-        <p class="text-center" id="sg_gwei">safe_gas_gwei</p>
-        <p class="text-center" id="sg_conf">safe_gas_conf</p>
+    <div class="col-4 col-xl-2">
+        <div class="card">
+            <h5 class="card-title text-center">Proposed Gas</h5>
+            <p class="text-center" id="pg_gwei">***</p>
+            <p class="text-center" id="pg_conf">***</p>
+        </div>
     </div>
-</div>
-<div class="col-4">
-    <div class="card">
-        <h5 class="card-title text-center">Proposed Gas Price (Gwei)</h5>
-        <p class="text-center" id="pg_gwei">prop_gas_gwei</p>
-        <p class="text-center" id="pg_conf">prop_gas_conf</p>
-    </div>
-</div>
-<div class="col-4">
-    <div class="card">
-        <h5 class="card-title text-center">Fast Gas Price (Gwei)</h5>
-        <p class="text-center" id="fg_gwei">fast_gas_gwei</p>
-        <p class="text-center" id="fg_conf">fast_gas_conf</p>
-    </div>
-</div>
-<div class="col-12">
-    <div class="card">
-        <h5 class="card-title text-center">Base Fee (Gwei)</h5>
-        <p class="text-center" id="base_fee">base_fee</p>
+    <div class="col-3 col-xl-2">
+        <div class="card">
+            <h5 class="card-title text-center">Fast Gas</h5>
+            <p class="text-center" id="fg_gwei">***</p>
+            <p class="text-center" id="fg_conf">***</p>
+        </div>
     </div>
 </div>
 
+{% endblock %}
+
+{% block searchbar %}
+<div class="row justify-content-center mt-2">
+    <div class="col-12 col-md-8 col-xxl-6">
+        <form>
+            <div class="card mx-3">
+                <div class="input-group">
+                    <input type="search" class="form-control" id="searchbar"
+                        placeholder="Search for Block# / Transaction Hash / Wallet Address"
+                        aria-describedby="searchBtn">
+                    <button class="btn btn-outline-secondary" type="button" id="searchBtn">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
