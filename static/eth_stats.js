@@ -12,34 +12,42 @@ const $fg_conf = $('#fg_conf')
 const $base_fee = $('#base_fee')
 
 async function update_stats() {
-    stats = await get_stats();
-    let ts = String(BigInt(stats['total_supply']))
-    let ts2 = String(BigInt(stats['total_supply_eth2']))
-    let lp = String("$" + stats['last_price'])
-    let sg = stats['safe_gas']
-    let pg = stats['prop_gas']
-    let fg = stats['fast_gas']
+    try {
+        stats = await get_stats();
+        let ts = String(BigInt(stats['total_supply']));
+        let ts2 = String(BigInt(stats['total_supply_eth2']));
+        let lp = String("$" + stats['last_price']);
+        let sg = stats['safe_gas'];
+        let pg = stats['prop_gas'];
+        let fg = stats['fast_gas'];
 
-    $total_eth.text(format_supply(ts))
-    $total_eth2.text(format_supply(ts2))
-    $last_price.text(lp)
+        $total_eth.text(format_supply(ts));
+        $total_eth2.text(format_supply(ts2));
+        $last_price.text(lp);
 
-    $sg_gwei.text(sg['gwei'])
-    $sg_conf.text(sg['est_conf'])
+        $sg_gwei.text(sg['gwei']);
+        $sg_conf.text(sg['est_conf']);
 
-    $pg_gwei.text(pg['gwei'])
-    $pg_conf.text(pg['est_conf'])
+        $pg_gwei.text(pg['gwei']);
+        $pg_conf.text(pg['est_conf']);
 
-    $fg_gwei.text(fg['gwei'])
-    $fg_conf.text(fg['est_conf'])
+        $fg_gwei.text(fg['gwei']);
+        $fg_conf.text(fg['est_conf']);
 
-    $base_fee.text(stats['base_fee'])
+        $base_fee.text(stats['base_fee']);
+    } catch (e) {
+        console.log("Error!: ", e);
+    }
 }
 
 async function get_stats() {
-    resp = await axios.get('/api/get_eth_stats');
-    stats = resp['data'];
-    return stats
+    try {
+        resp = await axios.get('/api/get_eth_stats');
+        stats = resp['data'];
+        return stats
+    } catch (e) {
+        console.log("Error!: ", e);
+    }
 }
 
 function format_supply(str) {
@@ -59,4 +67,4 @@ function format_supply(str) {
 }
 
 update_stats()
-setInterval(update_stats, 12000)
+setInterval(update_stats, 5000)
