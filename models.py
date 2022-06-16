@@ -61,8 +61,6 @@ class Eth_Stats(db.Model):
 
             exeTime = (time.time() - startTime)
             print(f'Eth_Stats api calls + cleanup took {str(exeTime)}')
-            print(new_stat)
-            print("-----------------------------------")
 
             return new_stat
         else:
@@ -73,8 +71,6 @@ class Eth_Stats(db.Model):
 
             exeTime = (time.time() - startTime)
             print(f'Eth_Stats api calls + cleanup took {str(exeTime)}')
-            print(curr_data)
-            print("-----------------------------------")
 
             return curr_data
 

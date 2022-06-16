@@ -67,4 +67,4 @@ function format_supply(str) {
 }
 
 update_stats()
-setInterval(update_stats, 5000)
+setInterval(update_stats, 20000)
