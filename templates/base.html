@@ -48,7 +48,14 @@
                                     <a class="nav-link" href="#">How to Use?</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">User</a>
+                                    {% if user %}
+                                    <a id="logoutLink" class="nav-link" href="/logout">Logout</a>
+                                    {% else %}
+                                    <a id="signUpLink" class="nav-link" href="/login">Login</a>
+                                    {% endif %}
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/signup">Sign Up</a>
                                 </li>
                             </ul>
 
@@ -61,17 +68,9 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     <!-- Page Heading -->
-                    <div class="row justify-content-center">
-                        <div class="col-12 col-md-10 col-lg-8">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h2 class="text-center">Minimalistic Ethereum Block Explorer</h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% block page_title %}
+                    {% endblock %}
 
                     <!-- Content Row -->
 
@@ -92,6 +91,9 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Userform content (Signup / Login)-->
+                    {% block userform %}
+                    {% endblock%}
 
                 </div>
 
@@ -119,7 +121,6 @@
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="/static/eth_stats.js"></script>
         <script src="/static/search.js"></script>
-
     </section>
 </body>
 

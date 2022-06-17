@@ -1,5 +1,18 @@
 {% extends 'base.html' %}
 
+{% block page_title %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+        <div class="card">
+            <div class="card-body">
+                <h2 id="page_title" class="text-center">Minimalistic Ethereum Block Explorer
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
 {% block eth_stats_dashboard %}
 <div class="row justify-content-center mt-2">
     <div class="col-12 col-md-6 col-lg-4">
@@ -9,7 +22,7 @@
         </div>
     </div>
     <div class="col-12 col-md-6 col-lg-4">
-        <div class="card mt-2">
+        <div class="card">
             <h5 class="card-title text-center">Total ETH2 Supply</h5>
             <p class="text-center" id="total_supply_eth2">***</p>
         </div>
@@ -23,7 +36,7 @@
         </div>
     </div>
     <div class="col-12 col-md-6 col-lg-4">
-        <div class="card mt-2">
+        <div class="card">
             <h5 class="card-title text-center">Base Fee (Gwei)</h5>
             <p class="text-center" id="base_fee">***</p>
         </div>

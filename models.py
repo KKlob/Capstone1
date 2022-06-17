@@ -1,15 +1,20 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 import time
 
 from eth_stat_funcs import update_db_eth_stats
 
 db = SQLAlchemy()
+bcrypt = Bcrypt()
 
 def connect_db(app):
     """Connect this database to provided Flask app"""
 
     db.app = app
     db.init_app(app)
+
+################################################################
+# Eth_Stats Model. Defines how db will store stats
 
 class Eth_Stats(db.Model):
     """Stores eth blockchain stats"""
@@ -74,6 +79,9 @@ class Eth_Stats(db.Model):
 
             return curr_data
 
+#############################################################################
+# Users model, defines signup / authenticate class methods. Handles requirements for user storage
+
 class Users(db.Model):
     """Stores username/password"""
 
@@ -90,6 +98,40 @@ class Users(db.Model):
                     unique=True)
     password = db.Column(db.Text,
                     nullable=False)
+
+    @classmethod
+    def signup(cls, username, password):
+        """Sign up user. Hashes password and adds user to system."""
+
+        hashed_pw = bcrypt.generate_password_hash(password).decode('UTF-8')
+
+        user = Users(
+            username=username,
+            password=hashed_pw
+        )
+
+        db.session.add(user)
+        return user
+
+    @classmethod
+    def authenticate(cls, username, password):
+        """Find user with 'username' and 'password'.
+        
+        Searches for a user whose password hash matches this password and, if it finds such a user, returns that user object.
+        
+        If it can't find matching user (or if password is wrong), returns False."""
+
+        user = cls.query.filter_by(username=username).first()
+
+        if user:
+            is_auth = bcrypt.check_password_hash(user.password, password)
+            if is_auth:
+                return user
+        
+        return False
+
+###############################################################################
+# Wallets class handles storing basic wallet information user choses to save.
 
 class Wallets(db.Model):
     """Stores info on wallets"""
@@ -111,6 +153,9 @@ class Wallets(db.Model):
                         db.ForeignKey('wallet_groups.id'))
     owner = db.Column(db.Text,
                         db.ForeignKey('users.username'))
+
+###############################################################################
+# Wallet_Groups handles the link between saved wallets and which users own them.
 
 class Wallet_Groups(db.Model):
     """Links wallets.group_id and users.username. Each user can create groups of wallets they own to pool total eth/tokens + value of all wallets"""
