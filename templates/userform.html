@@ -51,7 +51,8 @@
 {% endif %}
 {% endwith%}
 
-<!-- Include user.js on userform -->
-<script src="/static/users.js"></script>
+{% endblock %}
 
+{% block scripts %}
+<script src="/static/users.js"></script>
 {% endblock %}

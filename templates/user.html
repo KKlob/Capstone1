@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+<div class="row justify-content-center">
+    {% for msg in get_flashed_messages() %}
+    <div class="col-12 col-md-10 col-lg-8">
+        <div class="alert alert-warning" role="alert">
+            {{msg}}
+        </div>
+    </div>
+    {% endfor %}
+    <div class="col-12 col-md-10 col-lg-8">
+        <div class="card">
+            <div class="card-body">
+                <h2 id="userpage_title" class="text-center">{{user.username}}
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block searchbar %}
+<div class="row justify-content-center mt-2">
+    <div class="col-12 col-md-10 col-lg-8">
+        <form id="addwalletform">
+            <div class="card mx-3">
+                <div class="input-group">
+                    <input type="search" class="form-control" id="addwalletbar"
+                        placeholder="Enter address to add to watchlist" aria-describedby="addBtn">
+                    <button class="btn btn-outline-secondary" type="submit" id="addBtn">add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block user_wallets %}
+<div id="wallet_section">
+    {% for wallet in user.wallets %}
+    <div class="row justify-content-center mt-2">
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card">
+                <div class="card-title text-center">
+                    <h5>Wallet Address</h5>
+                </div>
+                <div class="card-text text-center">
+                    <p>{{wallet.wallet_address}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4 mt-1">
+            <div class="card">
+                <div class="card-title text-center">
+                    <h5>Eth Total</h5>
+                </div>
+                <div class="card-text text-center">
+                    <p>{{wallet.eth_total}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block user_wallet_groups %}
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/users.js"></script>
+{% endblock %}

@@ -49,13 +49,17 @@
                                 </li>
                                 <li class="nav-item">
                                     {% if user %}
+                                    <a class="nav-link" href="/{{user.username}}">{{user.username}}</a>
+                                    {% else %}
+                                    <a class="nav-link" href="/signup">Sign Up</a>
+                                    {% endif %}
+                                </li>
+                                <li class="nav-item">
+                                    {% if user %}
                                     <a id="logoutLink" class="nav-link" href="/logout">Logout</a>
                                     {% else %}
                                     <a id="signUpLink" class="nav-link" href="/login">Login</a>
                                     {% endif %}
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/signup">Sign Up</a>
                                 </li>
                             </ul>
 
@@ -79,6 +83,13 @@
 
                     <!-- Search Bar -->
                     {% block searchbar %}
+                    {% endblock %}
+
+                    <!-- Wallet Info -->
+                    {% block user_wallet_groups %}
+                    {% endblock %}
+
+                    {% block user_wallets %}
                     {% endblock %}
 
                     <!-- Search Results -->
@@ -119,8 +130,8 @@
             integrity="sha512-n/4gHW3atM3QqRcbCn6ewmpxcLAHGaDjpEBu4xZd47N0W2oQ+6q7oc3PXstrJYXcbNU1OHdQ1T7pAP+gi5Yu8g=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="/static/eth_stats.js"></script>
-        <script src="/static/search.js"></script>
+        {% block scripts %}
+        {% endblock %}
     </section>
 </body>
 

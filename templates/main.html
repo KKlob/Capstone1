@@ -2,6 +2,13 @@
 
 {% block page_title %}
 <div class="row justify-content-center">
+    {% for msg in get_flashed_messages() %}
+    <div class="col-12 col-md-10 col-lg-8">
+        <div class="alert alert-success" role="alert">
+            {{msg}}
+        </div>
+    </div>
+    {% endfor %}
     <div class="col-12 col-md-10 col-lg-8">
         <div class="card">
             <div class="card-body">
@@ -83,4 +90,9 @@
         </form>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/eth_stats.js"></script>
+<script src="/static/search.js"></script>
 {% endblock %}

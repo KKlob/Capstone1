@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, flash, redirect, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_apscheduler import APScheduler
 from sqlalchemy.exc import IntegrityError
-from models import Eth_Stats, Users, db, connect_db
+from models import Eth_Stats, Users, Wallets, Wallet_Groups, db, connect_db
 from forms import UserForm
 from search_funcs import detectSearch, getSearchResult, handleSearch
 from secret_keys import APP_SECRET_KEY
@@ -21,7 +21,7 @@ ES_API_BASE_URL = "https://api.etherscan.io/"
 app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgresql:///mebe'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
-app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
+#app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', APP_SECRET_KEY)
 toolbar = DebugToolbarExtension(app)
 
@@ -130,6 +130,15 @@ def homepage():
     else:
         return render_template('main.html')
 
+@app.route('/<username>')
+def userpage(username):
+    """Show user page"""
+    if g.user:
+        return render_template('user.html', user=g.user)
+    else:
+        flash("Invalid Request: You must be signed in to access that page!")
+        return redirect(url_for('login'))
+
 
 ##############################################################################
 # App routes that authenticate user
@@ -159,3 +168,12 @@ def search():
     term = request.args["term"]
     resp = handleSearch(term)
     return jsonify(resp)
+
+@app.route('/api/add_addr', methods=["POST"])
+def add_address():
+    """Adds address to db with user as owner"""
+    addr = request.json['wallet']
+    user = g.user
+    wallet = Wallets.add_wallet(addr, user.username)
+    prep_data = json.loads(wallet.__repr__())
+    return jsonify(prep_data)
