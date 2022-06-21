@@ -86,7 +86,7 @@ def signup():
 
         do_login(user)
 
-        return redirect(url_for('homepage', user=user))
+        return redirect(url_for('homepage'))
     
     else:
         return render_template('userform.html', form=form)
@@ -175,7 +175,9 @@ def add_address():
     addr = request.json['wallet']
     user = g.user
     wallet = Wallets.add_wallet(addr, user.username)
-    if "error" in wallet.keys():
-        return jsonify(wallet)
-    prep_data = json.loads(wallet.__repr__())
-    return jsonify(prep_data)
+    try:
+        if wallet["error"]:
+            return jsonify(wallet)
+    except TypeError:
+        prep_data = json.loads(wallet.__repr__())
+        return jsonify(prep_data)
