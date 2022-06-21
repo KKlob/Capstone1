@@ -1,6 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 import time
+from sqlalchemy import exc
+
+from psycopg2 import IntegrityError
 
 from eth_stat_funcs import update_db_eth_stats
 from wallet_funcs import get_eth_bal, update_balances
@@ -168,12 +171,16 @@ class Wallets(db.Model):
     @classmethod
     def add_wallet(cls, wallet_address, owner):
         """Handles adding single wallet with complete info to db"""
-        new_wallet = Wallets(wallet_address=wallet_address, owner=owner)
-        eth_bal = get_eth_bal(wallet_address)
-        setattr(new_wallet, "eth_total", eth_bal)
-        db.session.add(new_wallet)
-        db.session.commit()
-        return new_wallet
+        try:
+            new_wallet = Wallets(wallet_address=wallet_address, owner=owner)
+            eth_bal = get_eth_bal(wallet_address)
+            setattr(new_wallet, "eth_total", eth_bal)
+            db.session.add(new_wallet)
+            db.session.commit()
+            return new_wallet
+        except exc.IntegrityError:
+            db.session.rollback()
+            return {"error": "You already have that wallet added to your watchlist!"}
     
     @classmethod
     def update_wallets(cls, owner):

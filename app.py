@@ -21,7 +21,7 @@ ES_API_BASE_URL = "https://api.etherscan.io/"
 app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgresql:///mebe'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
-#app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', APP_SECRET_KEY)
 toolbar = DebugToolbarExtension(app)
 
@@ -175,5 +175,7 @@ def add_address():
     addr = request.json['wallet']
     user = g.user
     wallet = Wallets.add_wallet(addr, user.username)
+    if "error" in wallet.keys():
+        return jsonify(wallet)
     prep_data = json.loads(wallet.__repr__())
     return jsonify(prep_data)

@@ -13,8 +13,14 @@ function handleAddWallet(evt) {
     $('#addwalletbar').val("");
 
     let wallet = addWallet(addr);
-    wallet.then(resp => { displayWalletData(resp) })
-        .catch(err => { console.log(err) });
+    wallet.then(resp => {
+        if (Object.keys(resp).includes("error")) {
+            alert(resp['error']);
+        }
+        else {
+            displayWalletData(resp)
+        }
+    }).catch(err => { console.log(err) });
 }
 
 async function addWallet(addr) {
@@ -55,7 +61,6 @@ function displayWalletData(data) {
 
     $eth_card.find('.card-title').children('h5').text("Eth Total");
     $eth_card.find('.card-text').children('p').text(data['eth_total']);
-    console.log($eth_card.find('.card-title').children('h5'));
     $col_clone.append($eth_card);
     $row.append($col_clone);
 
