@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, flash, redirect, session, jsonify, g, url_for
+from flask import Flask, render_template, request, flash, redirect, session, jsonify, g, url_for, get_flashed_messages
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_apscheduler import APScheduler
 from sqlalchemy.exc import IntegrityError
@@ -12,9 +12,6 @@ import json
 
 app = Flask(__name__)
 scheduler = APScheduler()
-
-
-ES_API_BASE_URL = "https://api.etherscan.io/"
 
 # Get DB_URI from environ variable (useful for production/testing) or,
 # if not set there, use development local db.
@@ -130,7 +127,7 @@ def homepage():
     else:
         return render_template('main.html')
 
-@app.route('/<username>')
+@app.route('/watchlist/<username>')
 def userpage(username):
     """Show user page"""
     if g.user:
@@ -181,3 +178,11 @@ def add_address():
     except TypeError:
         prep_data = json.loads(wallet.__repr__())
         return jsonify(prep_data)
+
+@app.route('/api/remove_addr', methods=["POST"])
+def remove_address():
+    """Removes address from db."""
+    addr = request.json['wallet']
+    user = g.user
+    resp = Wallets.remove_wallet(addr, user)
+    return jsonify(resp)

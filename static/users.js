@@ -1,4 +1,5 @@
 document.onload = function () {
+    // if userform, ensure flashed messages are cleared on form submission
     const $userFormBtn = $('button #form_submit');
 
     $userFormBtn.on('submit', () => {
@@ -23,6 +24,13 @@ function handleAddWallet(evt) {
     }).catch(err => { console.log(err) });
 }
 
+function handleRemoveAddr(evt) {
+    // handles removing wallet
+    if ($(evt.target).is("button")) {
+        console.log(evt.target);
+    }
+}
+
 async function addWallet(addr) {
     try {
         let resp = await axios.post('/api/add_addr', { wallet: addr })
@@ -43,14 +51,14 @@ function displayWalletData(data) {
     // Build basic card
     let $card = $('<div>').addClass("card");
     $card.append($('<div>').addClass("card-title text-center").append($('<h5>')));
-    $card.append($('<div>').addClass("card-text text-center").append($('<p>')));
+    $card.append($('<div>').addClass("card-text text-center").append($('<p>').append($('<button>').attr('type', "button").addClass("btn btn-danger btn-sm").text("X"))));
 
     // Clone card for addrs, append to clone of $col_contain, append to $row
     let $addr_card = $card.clone();
     let $col_clone = $col_contain.clone();
 
     $addr_card.find('.card-title').children('h5').text("Wallet Address");
-    $addr_card.find('.card-text').children('p').text(data['wallet_address']);
+    $addr_card.find('.card-text').children('p').append(" ").append(data['wallet_address']);
     $col_clone.append($addr_card);
     $row.append($col_clone);
 
@@ -66,6 +74,8 @@ function displayWalletData(data) {
 
     // append $row to $wallets
     $wallets.append($row);
+    $row.on('click', handleRemoveAddr);
 }
 
 $('#addwalletform').on('submit', handleAddWallet);
+$('.btn-danger').on('click', handleRemoveAddr);

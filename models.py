@@ -203,6 +203,9 @@ class Wallets(db.Model):
         if wallet.owner == user.username:
             db.session.delete(wallet)
             db.session.commit()
+            return {"success": "Wallet removed successfully"}
+        else:
+            return {"error": "You don't own that wallet!"}
 
 
 ###############################################################################
