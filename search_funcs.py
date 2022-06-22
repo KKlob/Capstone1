@@ -1,4 +1,5 @@
 import json
+import os
 from tracemalloc import start
 from typing import Dict
 import requests
@@ -7,7 +8,9 @@ from web3 import Web3
 import codecs
 import aiohttp
 import asyncio
-from secret_keys import API_SECRET_KEY
+#from secret_keys import API_SECRET_KEY
+
+API_SECRET_KEY = os.environ.get(['ES_API_KEY'])
 
 
 w3 = Web3(Web3.WebsocketProvider('wss://mainnet.infura.io/ws/v3/e6e6ec7525d74b8ca50f79f1e2e0e986'))

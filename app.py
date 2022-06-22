@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 from models import Eth_Stats, Users, Wallets, db, connect_db
 from forms import UserForm
 from search_funcs import detectSearch, getSearchResult, handleSearch
-from secret_keys import APP_SECRET_KEY
+#from secret_keys import API_SECRET_KEY, APP_SECRET_KEY
 import json
 
 
@@ -15,11 +15,12 @@ scheduler = APScheduler()
 
 # Get DB_URI from environ variable (useful for production/testing) or,
 # if not set there, use development local db.
-app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgresql:///mebe'))
+app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('HEROKU_POSTGRESQL_BLACK_URL', 'postgresql:///mebe'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', APP_SECRET_KEY)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['ES_API_KEY'] = os.environ.get('ES_API_KEY')
 toolbar = DebugToolbarExtension(app)
 
 app.debug = True
