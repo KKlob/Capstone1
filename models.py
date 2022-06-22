@@ -3,7 +3,7 @@ from flask_bcrypt import Bcrypt
 import time
 from sqlalchemy import exc
 
-from eth_stat_funcs import update_db_eth_stats
+from eth_stat_funcs import update_db_eth_stats, w3
 from wallet_funcs import get_eth_bal, update_balances
 
 db = SQLAlchemy()
@@ -177,18 +177,21 @@ class Wallets(db.Model):
         for wallet in user.wallets:
             if wallet.wallet_address == wallet_address:
                 return {"error": "Invalid Add: Cannot add duplicate address"}
-        try:
-            new_wallet = Wallets(wallet_address=wallet_address, owner=user.username)
-            eth_bal = get_eth_bal(wallet_address)
-            setattr(new_wallet, "eth_total", eth_bal)
-            db.session.add(new_wallet)
-            db.session.commit()
-            return new_wallet
-        except exc.IntegrityError as err:
-            db.session.rollback()
-            print("Add Wallet Integrity Error-------------------")
-            print(err)
-            return {"error": "You already have that wallet added to your watchlist!"}
+        if w3.isAddress(wallet_address):
+            try:
+                new_wallet = Wallets(wallet_address=wallet_address, owner=user.username)
+                eth_bal = get_eth_bal(wallet_address)
+                setattr(new_wallet, "eth_total", eth_bal)
+                db.session.add(new_wallet)
+                db.session.commit()
+                return new_wallet
+            except exc.IntegrityError as err:
+                db.session.rollback()
+                print("Add Wallet Integrity Error-------------------")
+                print(err)
+                return {"error": "You already have that wallet added to your watchlist!"}
+        else:
+            return {"error": "Invalid Input: Not a valid wallet address"}
     
     @classmethod
     def update_wallets(cls, owner):
