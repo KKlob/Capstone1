@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, flash, redirect, session, jso
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_apscheduler import APScheduler
 from sqlalchemy.exc import IntegrityError
-from models import Eth_Stats, Users, Wallets, Wallet_Groups, db, connect_db
+from models import Eth_Stats, Users, Wallets, db, connect_db
 from forms import UserForm
 from search_funcs import detectSearch, getSearchResult, handleSearch
 from secret_keys import APP_SECRET_KEY
@@ -18,7 +18,7 @@ scheduler = APScheduler()
 app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgresql:///mebe'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
-app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = True
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', APP_SECRET_KEY)
 toolbar = DebugToolbarExtension(app)
 
@@ -171,7 +171,7 @@ def add_address():
     """Adds address to db with user as owner"""
     addr = request.json['wallet']
     user = g.user
-    wallet = Wallets.add_wallet(addr, user.username)
+    wallet = Wallets.add_wallet(addr, user)
     try:
         if wallet["error"]:
             return jsonify(wallet)
@@ -186,3 +186,12 @@ def remove_address():
     user = g.user
     resp = Wallets.remove_wallet(addr, user)
     return jsonify(resp)
+
+@app.route('/api/remove_user', methods=["POST"])
+def remove_user():
+    """Removes user from db"""
+    username = request.json['username']
+    curr_user = g.user
+    res = Users.removeUser(username, curr_user)
+    do_logout()
+    return jsonify(res)

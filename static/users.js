@@ -10,6 +10,7 @@ document.onload = function () {
 function handleAddWallet(evt) {
     // handles adding wallet request
     evt.preventDefault();
+    $('#form_submit').prop('disabled', true);
     let addr = $('#addwalletbar').val();
     $('#addwalletbar').val("");
 
@@ -36,20 +37,42 @@ function handleRemoveAddr(evt) {
             }
             else {
                 $target_row.remove();
-                alert(data['success']);
             }
         }).catch((err) => {
             console.log("Error: ", err);
         });
+    }
+}
 
+function handleRemoveUser(evt) {
+    let username = $('#userpage_title').text();
+    let resp = removeUser(username);
+    resp.then((data) => {
+        if (Object.keys(data).includes("error")) {
+            alert(data['error']);
+        }
+        else {
+            alert(data['success']);
+            window.location.replace('/');
+            return false;
+        }
+    });
+}
 
+async function removeUser(username) {
+    try {
+        let resp = await axios.post('/api/remove_user', { username: username });
+        return resp['data'];
+    } catch (e) {
+        console.log("Rejected!", e);
+        return undefined;
     }
 }
 
 async function removeWallet(addr) {
     try {
         let resp = await axios.post('/api/remove_addr', { wallet: addr });
-        return resp['data'];
+        return await resp['data'];
     } catch (e) {
         console.log("Rejected!", e);
         return undefined;
@@ -100,7 +123,9 @@ function displayWalletData(data) {
     // append $row to $wallets
     $wallets.append($row);
     $row.on('click', handleRemoveAddr);
+    $('#form_submit').prop('disabled', false);
 }
 
 $('#addwalletform').on('submit', handleAddWallet);
-$('.btn-danger').on('click', handleRemoveAddr);
+$('#wallet_section').find('.btn-danger').on('click', handleRemoveAddr);
+$('#delete_btn').find('button').on('click', handleRemoveUser);

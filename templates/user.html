@@ -11,9 +11,11 @@
     {% endfor %}
     <div class="col-12 col-md-10 col-lg-8">
         <div class="card">
-            <div class="card-body">
-                <h2 id="userpage_title" class="text-center">{{user.username}}
-                </h2>
+            <div class="card-body text-center">
+                <h2 id="userpage_title" class="text-center">{{user.username}}</h2>
+            </div>
+            <div id="delete_btn" class="card-text text-center">
+                <p><button type="button" class="btn btn-danger btn-sm">Delete User</button></p>
             </div>
         </div>
     </div>

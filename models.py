@@ -3,8 +3,6 @@ from flask_bcrypt import Bcrypt
 import time
 from sqlalchemy import exc
 
-from psycopg2 import IntegrityError
-
 from eth_stat_funcs import update_db_eth_stats
 from wallet_funcs import get_eth_bal, update_balances
 
@@ -61,7 +59,7 @@ class Eth_Stats(db.Model):
         startTime = time.time()
         stats = update_db_eth_stats()
 
-        curr_data = Eth_Stats.query.first()
+        curr_data = cls.query.first()
 
         if curr_data == None:
             new_stat = Eth_Stats(**stats)
@@ -103,9 +101,10 @@ class Users(db.Model):
     password = db.Column(db.Text,
                     nullable=False)
 
-    wallets = db.relationship('Wallets')
+    wallets = db.relationship('Wallets', cascade='all, delete, delete-orphan')
 
-    wallet_groups = db.relationship('Wallet_Groups')
+    # yet to be implemented
+    #wallet_groups = db.relationship('Wallet_Groups')
 
 
     @classmethod
@@ -138,12 +137,17 @@ class Users(db.Model):
                 return user
         
         return False
-        
+
     @classmethod
-    def remove_user(cls, user):
-        """Removes user from db"""
-        db.session.delete(user)
-        db.session.commit()
+    def removeUser(cls, username, user):
+        """Remove user from db. Returns dict"""
+        rem_user = Users.query.filter(Users.username==username).first()
+        if rem_user:
+            if user.username == rem_user.username:
+                db.session.delete(rem_user)
+                db.session.commit()
+                return {"success": f"{user.username} has been deleted."}
+        return {"error": "You can't delete someone else's account!"}        
 
 ###############################################################################
 # Wallets class handles storing basic wallet information user choses to save.
@@ -160,8 +164,7 @@ class Wallets(db.Model):
                     primary_key=True,
                     autoincrement=True)
     wallet_address = db.Column(db.Text,
-                        nullable=False,
-                        unique=True)
+                        nullable=False)
     eth_total = db.Column(db.Float)
     owner = db.Column(db.Text,
                         db.ForeignKey('users.username', ondelete="CASCADE"))
@@ -169,17 +172,22 @@ class Wallets(db.Model):
 
 
     @classmethod
-    def add_wallet(cls, wallet_address, owner):
+    def add_wallet(cls, wallet_address, user):
         """Handles adding single wallet with complete info to db"""
+        for wallet in user.wallets:
+            if wallet.wallet_address == wallet_address:
+                return {"error": "Invalid Add: Cannot add duplicate address"}
         try:
-            new_wallet = Wallets(wallet_address=wallet_address, owner=owner)
+            new_wallet = Wallets(wallet_address=wallet_address, owner=user.username)
             eth_bal = get_eth_bal(wallet_address)
             setattr(new_wallet, "eth_total", eth_bal)
             db.session.add(new_wallet)
             db.session.commit()
             return new_wallet
-        except exc.IntegrityError:
+        except exc.IntegrityError as err:
             db.session.rollback()
+            print("Add Wallet Integrity Error-------------------")
+            print(err)
             return {"error": "You already have that wallet added to your watchlist!"}
     
     @classmethod
@@ -199,8 +207,8 @@ class Wallets(db.Model):
     @classmethod
     def remove_wallet(cls, address, user):
         """Handles removing wallet from db"""
-        wallet = cls.query.filter_by(wallet_address=address).first()
-        if wallet.owner == user.username:
+        wallet = cls.query.filter_by(wallet_address=address, owner=user.username).first()
+        if wallet:
             db.session.delete(wallet)
             db.session.commit()
             return {"success": "Wallet removed successfully"}
@@ -211,22 +219,26 @@ class Wallets(db.Model):
 ###############################################################################
 # Wallet_Groups handles the link between saved wallets and which users own them.
 
-class Wallet_Groups(db.Model):
-    """Links wallets.group_id and users.username. Each user can create groups of wallets they own to pool total eth/tokens + value of all wallets"""
+## To be implemented
+
+
+# class Wallet_Groups(db.Model):
+#     """Links wallets.group_id and users.username. Each user can create groups of wallets they own to pool total eth/tokens + value of all wallets"""
     
-    __tablename__ = "wallet_groups"
+#     __tablename__ = "wallet_groups"
 
-    def __repr__(self):
-        return "{" + f'"id": {self.id}, "group_name": "{self.group_name}", "wallet_id": {self.wallet_id}, "owner": "{self.owner}"' + "}"
+#     def __repr__(self):
+#         return "{" + f'"id": {self.id}, "group_name": "{self.group_name}", "wallet_id": {self.wallet_id}, "owner": "{self.owner}"' + "}"
 
-    id = db.Column(db.Integer,
-                    primary_key=True,
-                    autoincrement=True)
-    group_name = db.Column(db.Text,
-                            default="")
-    wallet_id = db.Column(db.Integer,
-                        db.ForeignKey('wallets.id', ondelete="CASCADE"),
-                        nullable=False)
-    owner = db.Column(db.Text,
-                    db.ForeignKey('users.username', ondelete="CASCADE"),
-                    nullable=False)
+#     id = db.Column(db.Integer,
+#                     primary_key=True,
+#                     autoincrement=True)
+#     group_name = db.Column(db.Text,
+#                             default="")
+#     wallet_id = db.Column(db.Integer,
+#                         db.ForeignKey('wallets.id', ondelete="CASCADE"),
+#                         nullable=False)
+#     owner = db.Column(db.Text,
+#                     db.ForeignKey('users.username', ondelete="CASCADE"),
+#                     nullable=False,
+#                     unique=True)
