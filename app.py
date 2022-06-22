@@ -127,6 +127,11 @@ def homepage():
     else:
         return render_template('main.html')
 
+@app.route('/help')
+def helppage():
+    """Show help page for all users"""
+    return render_template('help.html')
+
 @app.route('/watchlist/<username>')
 def userpage(username):
     """Show user page"""

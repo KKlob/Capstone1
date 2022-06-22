@@ -7,6 +7,7 @@ function handleSearch(evt) {
     // Handles serach submission
     evt.preventDefault();
     let term = $('#searchbar').val();
+    $('#searchbar').val("");
 
     if ($results_div.hasClass("d-none")) {
         $results_div.removeClass("d-none");
