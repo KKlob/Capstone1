@@ -26,7 +26,7 @@ toolbar = DebugToolbarExtension(app)
 app.debug = True
 connect_db(app)
 scheduler.init_app(app)
-#scheduler.start()
+scheduler.start()
 
 # scheduler will run Eth_stats.update() every 10 seconds. Ensures call limit
 scheduler.add_job(id='ETH_STATS_UPDATE', func=Eth_Stats.update, trigger='interval', seconds=20)
