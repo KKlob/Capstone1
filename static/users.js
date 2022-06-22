@@ -27,7 +27,32 @@ function handleAddWallet(evt) {
 function handleRemoveAddr(evt) {
     // handles removing wallet
     if ($(evt.target).is("button")) {
-        console.log(evt.target);
+        let $target_row = $(evt.target).parents('div .row').first();
+        let addr = ($(evt.target).parent('p').text()).slice(2);
+        let resp = removeWallet(addr);
+        resp.then((data) => {
+            if (Object.keys(data).includes("error")) {
+                alert(data['error']);
+            }
+            else {
+                $target_row.remove();
+                alert(data['success']);
+            }
+        }).catch((err) => {
+            console.log("Error: ", err);
+        });
+
+
+    }
+}
+
+async function removeWallet(addr) {
+    try {
+        let resp = await axios.post('/api/remove_addr', { wallet: addr });
+        return resp['data'];
+    } catch (e) {
+        console.log("Rejected!", e);
+        return undefined;
     }
 }
 

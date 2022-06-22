@@ -199,7 +199,7 @@ class Wallets(db.Model):
     @classmethod
     def remove_wallet(cls, address, user):
         """Handles removing wallet from db"""
-        wallet = cls.query.filter_by(wallet_address=address)
+        wallet = cls.query.filter_by(wallet_address=address).first()
         if wallet.owner == user.username:
             db.session.delete(wallet)
             db.session.commit()
