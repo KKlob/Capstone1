@@ -4,7 +4,7 @@ import requests
 from eth_stat_funcs import API_SECRET_KEY, w3
 import os
 
-API_SECRET_KEY = os.environ.get(['ES_API_KEY'])
+API_SECRET_KEY = os.environ.get('ES_API_KEY')
 
 def get_eth_bal(address):
     """Handles fetching data, scrubing data, and returning either float eth_bal"""

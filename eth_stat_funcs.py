@@ -7,7 +7,7 @@ import os
 
 #from secret_keys import API_SECRET_KEY
 
-API_SECRET_KEY = os.environ.get(['ES_API_KEY'])
+API_SECRET_KEY = os.environ.get('ES_API_KEY')
 
 w3 = Web3(Web3.WebsocketProvider('wss://mainnet.infura.io/ws/v3/e6e6ec7525d74b8ca50f79f1e2e0e986'))
 
