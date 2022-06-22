@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 from sqlalchemy import BigInteger
 #from secret_keys import API_SECRET_KEY
 import requests
@@ -21,8 +22,10 @@ def get_address_data(addr):
 
 def scrub_data(wei_bal):
     """Takes in array of raw_data, returns single clean dict."""
-    
-    wei = int(wei_bal)
+    try:
+        wei = int(wei_bal)
+    except ValueError as err:
+        return 0
     eth = float(w3.fromWei(wei, 'ether'))
     return eth
 
