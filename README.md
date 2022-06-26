@@ -21,7 +21,7 @@ MEBE is an app that simplifies the information displayed by a typical block expl
 ## Tech Stack
 * Flask / SqlAlchemy backend
 * Javascript / Jinja front-end
-* PSQL Database to cache eth network stats + user profiles + wallet watchlists
+* PSQL Database to store eth network stats + user profiles + wallet watchlists
 
 
 ## APIs used
