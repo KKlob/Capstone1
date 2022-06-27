@@ -25,16 +25,16 @@ async function update_stats() {
         $total_eth2.text(format_supply(ts2));
         $last_price.text(lp);
 
-        $sg_gwei.text(sg['gwei']);
-        $sg_conf.text(sg['est_conf']);
+        $sg_gwei.text(`${sg['gwei']} gwei`);
+        $sg_conf.text(`${sg['est_conf']} secs`);
 
-        $pg_gwei.text(pg['gwei']);
-        $pg_conf.text(pg['est_conf']);
+        $pg_gwei.text(`${pg['gwei']} gwei`);
+        $pg_conf.text(`${pg['est_conf']} secs`);
 
-        $fg_gwei.text(fg['gwei']);
-        $fg_conf.text(fg['est_conf']);
+        $fg_gwei.text(`${fg['gwei']} gwei`);
+        $fg_conf.text(`${fg['est_conf']} secs`);
 
-        $base_fee.text(stats['base_fee']);
+        $base_fee.text(`${stats['base_fee']} gwei`);
     } catch (e) {
         console.log("Error!: ", e);
     }
