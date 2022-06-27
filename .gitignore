@@ -1,3 +1,4 @@
 __pycache__/
 venv/
-secret_keys.py
+env_setup.sh
+.envrc

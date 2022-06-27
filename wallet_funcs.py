@@ -1,11 +1,9 @@
 from multiprocessing.sharedctypes import Value
-from sqlalchemy import BigInteger
-#from secret_keys import API_SECRET_KEY
 import requests
-from eth_stat_funcs import API_SECRET_KEY, w3
+from eth_stat_funcs import w3
 import os
 
-API_SECRET_KEY = os.environ.get('ES_API_KEY')
+API_SECRET_KEY = os.environ.get('ES_API_KEY', 'there_is_no_default_that_works')
 
 def get_eth_bal(address):
     """Handles fetching data, scrubing data, and returning either float eth_bal"""

@@ -1,13 +1,13 @@
 """Seed database with sample data from Etherscan API"""
 
 import sys
+from models import Eth_Stats, Users, Wallets
 try:
     from app import db 
 except AttributeError as err:
     print("You must comment out the 'scheduler.start()' line in app.py before seeding db.")
     print("Line 31 in app.py")
     sys.exit()
-from models import Eth_Stats, Users, Wallets
 
 db.drop_all()
 db.create_all()

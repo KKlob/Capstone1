@@ -1,15 +1,14 @@
 import asyncio
-import time
 from web3 import Web3
 import aiohttp
 import json
 import os
 
-#from secret_keys import API_SECRET_KEY
-
-API_SECRET_KEY = os.environ.get('ES_API_KEY')
+API_SECRET_KEY = os.environ.get('ES_API_KEY', 'there_is_no_default_that_works')
 
 w3 = Web3(Web3.WebsocketProvider('wss://mainnet.infura.io/ws/v3/e6e6ec7525d74b8ca50f79f1e2e0e986'))
+
+print(API_SECRET_KEY)
 
 def update_db_eth_stats():
     """Handles all steps to update the eth stats stored in db"""

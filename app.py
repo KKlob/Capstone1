@@ -1,12 +1,11 @@
 import os
-from flask import Flask, render_template, request, flash, redirect, session, jsonify, g, url_for, get_flashed_messages
+from flask import Flask, render_template, request, flash, redirect, session, jsonify, g, url_for
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_apscheduler import APScheduler
 from sqlalchemy.exc import IntegrityError
 from models import Eth_Stats, Users, Wallets, db, connect_db
 from forms import UserForm
-from search_funcs import detectSearch, getSearchResult, handleSearch
-#from secret_keys import API_SECRET_KEY, APP_SECRET_KEY
+from search_funcs import handleSearch
 import json
 
 
@@ -19,8 +18,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (os.environ.get('DATABASE_URL', 'postgre
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config['ES_API_KEY'] = os.environ.get('ES_API_KEY')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev_secret_key')
 toolbar = DebugToolbarExtension(app)
 
 app.debug = True
