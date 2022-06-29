@@ -45,3 +45,4 @@ MEBE is an app that simplifies the information displayed by a typical block expl
 #### Work to be done on existing app
 * ReWrite DB setup
 * Beautify the app (currently basic bootstrap)
+* ReWrite JS files to be Object Oriented
